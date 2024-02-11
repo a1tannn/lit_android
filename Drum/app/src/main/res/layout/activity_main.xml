@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageButton
+        android:id="@+id/cymbal2_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="68dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/cymbal2"
+        app:layout_constraintStart_toStartOf="@+id/tom1_image_button"
+        app:layout_constraintTop_toTopOf="@+id/tom1_image_button"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/tom2_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/tom2"
+        app:layout_constraintStart_toEndOf="@+id/cymbal2_image_button"
+        app:layout_constraintTop_toTopOf="@+id/cymbal2_image_button"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/cymbal1_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="103dp"
+        android:layout_marginEnd="22dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/cymbal1"
+        app:layout_constraintEnd_toEndOf="@+id/snare_image_button"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/tom1_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/tom1"
+        app:layout_constraintStart_toEndOf="@+id/cymbal1_image_button"
+        app:layout_constraintTop_toTopOf="@+id/cymbal1_image_button"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/hihat_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/hihat"
+        app:layout_constraintEnd_toStartOf="@+id/snare_image_button"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/snare_image_button"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/snare_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/snare"
+        app:layout_constraintEnd_toStartOf="@+id/bass_image_button"
+        app:layout_constraintStart_toEndOf="@+id/hihat_image_button"
+        app:layout_constraintTop_toTopOf="@+id/bass_image_button"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/bass_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/bass"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tom3_image_button"
+        app:layout_constraintStart_toEndOf="@+id/snare_image_button"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/tom3_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/tom3"
+        app:layout_constraintEnd_toStartOf="@+id/cymbal3_image_button"
+        app:layout_constraintStart_toEndOf="@+id/bass_image_button"
+        app:layout_constraintTop_toTopOf="@+id/bass_image_button"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/cymbal3_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginEnd="1dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/cymbal3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tom3_image_button"
+        app:layout_constraintTop_toTopOf="@+id/tom3_image_button"
+        tools:ignore="SpeakableTextPresentCheck" />
+</androidx.constraintlayout.widget.ConstraintLayout>
