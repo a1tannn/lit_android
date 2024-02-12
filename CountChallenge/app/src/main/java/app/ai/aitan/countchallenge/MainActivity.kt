@@ -1,5 +1,6 @@
 package app.ai.aitan.countchallenge
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import app.ai.aitan.countchallenge.databinding.ActivityMainBinding
@@ -16,6 +17,10 @@ class MainActivity : AppCompatActivity() {
         binding.plusButton.setOnClickListener {
             count++
             binding.countText.text = count.toString()
+            when{
+                count%2==0 -> binding.countText.setTextColor(Color.BLUE)
+                count%2!=0 -> binding.countText.setTextColor(Color.RED)
+            }
         }
     }
 }
