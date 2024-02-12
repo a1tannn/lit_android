@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "app.ai.aitan.countchallenge"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "app.ai.aitan.countchallenge"
@@ -32,6 +32,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    buildFeatures {
+        viewBinding = true
     }
 }
 
