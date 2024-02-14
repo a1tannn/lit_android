@@ -1,5 +1,7 @@
 package app.ai.aitan.countchallenge
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.media.AudioAttributes
 import android.media.SoundPool
@@ -15,11 +17,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var soundPool: SoundPool
 
     private var soundResource: Int = 0
+
+    private var count : Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(this.root) }
 
-        var count : Int = 0
+        val pref: SharedPreferences = getSharedPreferences("SharedPref", Context.MODE_PRIVATE)
+        val num = pref.getInt("Count",0)
+        count = num
+        binding.countText.text = count.toString()
 
         binding.plusButton.setOnClickListener {
             count++
@@ -47,6 +54,15 @@ class MainActivity : AppCompatActivity() {
             .setMaxStreams(1).build()
 
         soundResource = soundPool.load(applicationContext, R.raw.system39, 0)
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        val pref: SharedPreferences = getSharedPreferences("SharedPref", Context.MODE_PRIVATE)
+        val editor = pref.edit()
+        editor.putInt("Count",count)
+        editor.apply()
     }
 
     override fun onDestroy() {
