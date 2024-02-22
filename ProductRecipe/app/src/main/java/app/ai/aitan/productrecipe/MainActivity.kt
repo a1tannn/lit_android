@@ -16,15 +16,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val list: ArrayList<String> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(this.root) }
-
-        list.add("test1")
-        list.add("test2")
-        list.add("test3")
-        list.add("test4")
 
         binding.addButton.setOnClickListener {
             val addIntent: Intent = Intent(this, AddActivity::class.java)
@@ -36,11 +30,11 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         val pref: SharedPreferences = getSharedPreferences("SharedPref",Context.MODE_PRIVATE)
-        val memo: String = pref.getString("Memo","Nodata").toString()
-        list.add(memo)
-        for(i in list){
-            addMemo(i)
-            Log.d("aitan",i)
+        val count = pref.getInt("count",0)
+        for(i in 1..count){
+            val memo = pref.getString("$i","Nodata")
+            addMemo(memo.toString())
+            Log.d("aitan",i.toString())
         }
     }
 
