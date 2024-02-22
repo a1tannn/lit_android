@@ -28,17 +28,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
+        binding.container.removeAllViews()
         val pref: SharedPreferences = getSharedPreferences("SharedPref",Context.MODE_PRIVATE)
         val count = pref.getInt("count",0)
         for(i in 1..count){
             val memo = pref.getString("$i","Nodata")
-            addMemo(memo.toString())
-            Log.d("aitan",i.toString())
+            addMemo(memo.toString(),i)
+            Log.d("aitan","$i")
         }
     }
 
-    private fun addMemo(memo: String){
+    private fun addMemo(memo: String, index: Int){
         val memoTextView = TextView(this)
         memoTextView.text = memo
         memoTextView.textSize = 30.0f
@@ -52,6 +52,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.container.addView(memoTextView)
 
-
+        memoTextView.setOnClickListener {
+            val intent = Intent(this, AddActivity::class.java).apply {
+                putExtra("String", memo)
+                putExtra("Num", index)
+                Log.d("aitan","$index $memo")
+            }
+            startActivity(intent)
+        }
     }
 }
