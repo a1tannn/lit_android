@@ -30,11 +30,12 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         binding.container.removeAllViews()
         val pref: SharedPreferences = getSharedPreferences("SharedPref",Context.MODE_PRIVATE)
-        val count = pref.getInt("count",0)
-        for(i in 1..count){
-            val memo = pref.getString("$i","Nodata")
-            addMemo(memo.toString(),i)
-            Log.d("aitan","$i")
+        val memos = pref.all
+        for ((key, value) in memos) {
+            if (key != "count") { // count キーは除外する
+                addMemo(value.toString(),key.toInt())
+                Log.d("aitan","$key $value")
+            }
         }
     }
 

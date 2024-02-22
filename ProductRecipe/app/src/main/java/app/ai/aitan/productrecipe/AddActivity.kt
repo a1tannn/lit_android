@@ -40,14 +40,10 @@ class AddActivity : AppCompatActivity() {
         }
 
         binding.deleteButton.setOnClickListener {
-            val editor = pref.edit()
             if(str == null || num == 0){
                 finish()
             }else{
-                editor.remove("$num")
-                count -= 1
-                editor.putInt("count",count).apply()
-                Log.d("aitan","count =  $count")
+                pref.edit().remove("$num").apply()
                 finish()
             }
         }
