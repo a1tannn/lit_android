@@ -10,15 +10,31 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import app.ai.aitan.productrecipe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var customAdapter: CustomAdapter
+    private lateinit var pref: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(this.root) }
+
+        pref = getSharedPreferences("SharedPref",Context.MODE_PRIVATE)
+        recyclerView = findViewById(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val sortedKeys = pref.all.keys.filter { it != "count" }.sortedBy { it.toInt() }
+        val memos = sortedKeys.map { pref.getString(it, "")!! }
+
+
+        customAdapter = CustomAdapter(memos)
+        recyclerView.adapter = customAdapter
 
         binding.addButton.setOnClickListener {
             val addIntent: Intent = Intent(this, AddActivity::class.java)
@@ -28,38 +44,34 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding.container.removeAllViews()
-        val pref: SharedPreferences = getSharedPreferences("SharedPref",Context.MODE_PRIVATE)
-        val memos = pref.all
-        for ((key, value) in memos) {
-            if (key != "count") { // count キーは除外する
-                addMemo(value.toString(),key.toInt())
-                Log.d("aitan","$key $value")
+
+        pref = getSharedPreferences("SharedPref",Context.MODE_PRIVATE)
+        recyclerView = findViewById(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val sortedKeys = pref.all.keys.filter { it != "count" }.sortedBy { it.toInt() }
+        val memos = sortedKeys.map { pref.getString(it, "")!! }
+
+        customAdapter = CustomAdapter(memos)
+        recyclerView.adapter = customAdapter
+        customAdapter.notifyDataSetChanged()
+
+        recyclerView.addOnItemTouchListener(
+            RecyclerItemClickListener(this, recyclerView) { view, position ->
+                val memoText = memos[position]
+                val key = sortedKeys[position].toInt()
+                val (title, memo) = memoText.split(":").map { it.trim() }
+
+                val intent = Intent(this@MainActivity, DetailActivity::class.java).apply {
+                    putExtra("title", title)
+                    putExtra("memo", memo)
+                    putExtra("count", key)
+                    putExtra("pos",position)
+                }
+                startActivity(intent)
             }
-        }
-    }
-
-    private fun addMemo(memo: String, index: Int){
-        val memoTextView = TextView(this)
-        memoTextView.text = memo
-        memoTextView.textSize = 30.0f
-
-        val lp = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        lp.gravity = Gravity.CENTER_VERTICAL
-        memoTextView.layoutParams = lp
-
-        binding.container.addView(memoTextView)
-
-        memoTextView.setOnClickListener {
-            val intent = Intent(this, AddActivity::class.java).apply {
-                putExtra("String", memo)
-                putExtra("Num", index)
-                Log.d("aitan","$index $memo")
-            }
-            startActivity(intent)
-        }
     }
+
+
 }

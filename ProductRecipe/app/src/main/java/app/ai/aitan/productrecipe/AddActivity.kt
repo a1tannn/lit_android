@@ -11,40 +11,44 @@ import app.ai.aitan.productrecipe.databinding.ActivityAddBinding
 class AddActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddBinding
-    private var count = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddBinding.inflate(layoutInflater).apply { setContentView(this.root) }
 
         val pref: SharedPreferences = getSharedPreferences("SharedPref", Context.MODE_PRIVATE)
-        count = pref.getInt("count",0)
 
-        val str = intent.getStringExtra("String")
-        val num = intent.getIntExtra("Num",0)
-        Log.d("aitan","$str $num")
-        binding.memoText.setText(str)
+        val textTitle = intent.getStringExtra("title") ?: ""
+        val textMemo = intent.getStringExtra("memo") ?: ""
+        val cnt = intent.getIntExtra("Count", 0)
+        val pos = intent.getIntExtra("pos",0)
+
+        binding.titleText.setText(textTitle)
+        binding.memoText.setText(textMemo)
+
 
         binding.checkButton.setOnClickListener {
+            val title = binding.titleText.text.toString()
             val memo = binding.memoText.text.toString()
-            if(memo.isNotEmpty()){
-                val editor = pref.edit()
-                if(str == null || num == 0){
-                    count += 1
-                    editor.putInt("count",count)
-                    editor.putString("$count", memo).apply()
-                }else{
-                    editor.putString("$num", memo).apply()
-                }
-                finish()
-            }
-        }
 
-        binding.deleteButton.setOnClickListener {
-            if(str == null || num == 0){
-                finish()
+            val editor = pref.edit()
+            val count = pref.getInt("count", 0)
+
+            if(textTitle == "" || textMemo == ""){
+                editor.putString(count.toString(), "$title: $memo")
+                editor.putInt("count", count + 1)
+                editor.apply()
+
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }else{
-                pref.edit().remove("$num").apply()
-                finish()
+                editor.putString(cnt.toString(), "$title: $memo").apply()
+                val intent = Intent(this, DetailActivity::class.java).apply {
+                    putExtra("title", title)
+                    putExtra("memo", memo)
+                    putExtra("count", cnt)
+                    putExtra("pos",pos)
+                }
+                startActivity(intent)
             }
         }
     }
