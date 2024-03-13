@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -17,8 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 
 class SwipeAdapter(
-    private val mMemoData:List<String>,
-    private val mDateData:List<String>,
+    private var mMemoData:List<String>,
+    private var mDateData:List<String>,
     private val fragment: Fragment,
     private val mSwipeStack: SwipeStack):
     BaseAdapter(){
@@ -39,13 +38,24 @@ class SwipeAdapter(
         var convertView: View = convertView
         convertView = LayoutInflater.from(parent!!.context).inflate(R.layout.card_items, parent, false)
 
-        val pref = fragment.requireActivity().getSharedPreferences("Memo", Context.MODE_PRIVATE)
+        val prefMemo = fragment.requireActivity().getSharedPreferences("Memo", Context.MODE_PRIVATE)
+        val pref = fragment.requireActivity().getSharedPreferences("SharedPref", Context.MODE_PRIVATE)
+
+        var memoCount = mMemoData.size
+        if(memoCount > 12) memoCount = 1
+
+        val editor = pref.edit()
+        editor.putInt("MemoCount",memoCount).apply()
+        Log.d("aitan","$memoCount")
 
         val textDateView = convertView.findViewById(R.id.memo_date_text) as TextView
-        textDateView.setText(mDateData[position])
+        textDateView.text = mDateData[position]
 
         val textViewCard = convertView.findViewById(R.id.memo_text) as TextView
-        textViewCard.setText(mMemoData[position])
+        textViewCard.text = mMemoData[position]
+
+        val newMemoData = mMemoData.toMutableList()
+        val newDateData = mDateData.toMutableList()
 
         val editButton = convertView.findViewById<ImageButton>(R.id.edit_button)
         editButton.setOnClickListener {
@@ -66,13 +76,26 @@ class SwipeAdapter(
         deleteButton.setOnClickListener {
             val builder: AlertDialog.Builder = AlertDialog.Builder(fragment.requireContext())
             builder
-                .setMessage("${mMemoData[position]}")
-                .setTitle("${mDateData[position]}を削除しますか？")
+                .setMessage(mMemoData[position])
+                .setTitle("${mDateData[position]}のメモを削除しますか？")
                 .setPositiveButton("削除する") { dialog, which ->
-                    pref.edit().remove("${mDateData[position]}").apply()
+                    prefMemo.edit().remove(mDateData[position]).apply()
                     Toast.makeText(fragment.context, "${mDateData[position]}を削除しました", Toast.LENGTH_LONG).show()
+                    memoCount--
+                    editor.putInt("MemoCount",memoCount).apply()
+                    Log.d("aitan","after delete memoCount = $memoCount")
 
                     mSwipeStack.swipeTopViewLeft()
+
+                    newMemoData.removeAt(position)
+                    newDateData.removeAt(position)
+
+                    mMemoData = newMemoData.toList()
+                    mDateData = newDateData.toList()
+
+                    notifyDataSetChanged()
+
+                    return@setPositiveButton
                 }
                 .setNegativeButton("削除しない") { dialog, which ->
                 }
@@ -83,6 +106,4 @@ class SwipeAdapter(
 
         return convertView
     }
-
-
 }

@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".FlowerFragment"
-    android:background="@color/base">
+    android:background="@color/base"
+    android:id="@+id/flowerFragment">
 
     <ImageView
         android:id="@+id/imageView"
@@ -15,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/flower" />
+        app:srcCompat="@drawable/sprout" />
 
     <TextView
         android:id="@+id/grow_text"

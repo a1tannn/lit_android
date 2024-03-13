@@ -18,6 +18,8 @@ class RecordFragment : Fragment() {
 
     private var _bindingCard: CardItemsBinding? = null
 
+    private lateinit var swipeStack: SwipeStack
+
     private lateinit var mMemoData: ArrayList<String>
     private lateinit var mDateData: ArrayList<String>
 
@@ -31,15 +33,20 @@ class RecordFragment : Fragment() {
 
         mMemoData = ArrayList()
         mDateData = ArrayList()
-        val swipeStack = _binding!!.swipeStack
+
+        swipeStack = _binding!!.swipeStack
         swipeStack.adapter = SwipeAdapter(mMemoData, mDateData,this, swipeStack)
         getTextData()
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.resetButton.setOnClickListener {
             swipeStack.resetStack()
         }
-
-        return binding.root
     }
 
     private fun getTextData() {
