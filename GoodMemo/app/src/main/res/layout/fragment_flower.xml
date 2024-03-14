@@ -12,7 +12,7 @@
         android:id="@+id/imageView"
         android:layout_width="400dp"
         android:layout_height="400dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,15 +26,46 @@
         android:layout_marginTop="32dp"
         android:text="成長するまであと"
         android:textColor="@color/brown"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/grow_count_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="29dp"
+        android:text="0"
+        android:textColor="@color/brown"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/grow_text"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/grow2_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="32dp"
+        android:text="良いこと"
+        android:textColor="@color/brown"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/grow_count_text"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="300dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:max="99"
+        android:min="0"
+        android:progressTint="@color/green"
+        android:progressBackgroundTint="@color/brown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/grow_text" />

@@ -54,9 +54,6 @@ class SwipeAdapter(
         val textViewCard = convertView.findViewById(R.id.memo_text) as TextView
         textViewCard.text = mMemoData[position]
 
-        val newMemoData = mMemoData.toMutableList()
-        val newDateData = mDateData.toMutableList()
-
         val editButton = convertView.findViewById<ImageButton>(R.id.edit_button)
         editButton.setOnClickListener {
             val args = Bundle()
@@ -73,6 +70,7 @@ class SwipeAdapter(
         }
 
         val deleteButton = convertView.findViewById<ImageButton>(R.id.delete_button)
+
         deleteButton.setOnClickListener {
             val builder: AlertDialog.Builder = AlertDialog.Builder(fragment.requireContext())
             builder
@@ -86,16 +84,6 @@ class SwipeAdapter(
                     Log.d("aitan","after delete memoCount = $memoCount")
 
                     mSwipeStack.swipeTopViewLeft()
-
-                    newMemoData.removeAt(position)
-                    newDateData.removeAt(position)
-
-                    mMemoData = newMemoData.toList()
-                    mDateData = newDateData.toList()
-
-                    notifyDataSetChanged()
-
-                    return@setPositiveButton
                 }
                 .setNegativeButton("削除しない") { dialog, which ->
                 }

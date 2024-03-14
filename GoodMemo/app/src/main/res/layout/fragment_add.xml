@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:text="date"
         android:textSize="20sp"
         android:textColor="@color/brown"
@@ -40,7 +40,7 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="内容を入力してください"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:textColorHint="#C8A69780"
             android:textSize="20sp" />
     </androidx.cardview.widget.CardView>
@@ -50,10 +50,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="60dp"
         android:text="ヒント:ラッキーだったことは？"
         android:textSize="20sp"
         android:textColor="@color/brown"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_view" />
 
@@ -62,14 +62,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="120dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="100dp"
-        android:text="保存"
-        android:textSize="20sp"
-        android:textColor="@color/base"
         android:backgroundTint="@color/green"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="保存"
+        android:textColor="@color/base"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

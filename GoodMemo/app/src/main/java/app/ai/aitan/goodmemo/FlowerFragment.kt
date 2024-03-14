@@ -27,11 +27,11 @@ class FlowerFragment : Fragment() {
 
     private var memoCount = 0
 
-    private var lastMemoCount = 0
+    private var lastMemoCount: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentFlowerBinding.inflate(inflater, container, false)
 
@@ -41,13 +41,34 @@ class FlowerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        pref = requireActivity().getSharedPreferences("SharedPref", Context.MODE_PRIVATE)
+        memoCount = pref.getInt("MemoCount",0)
+
+        var progressCount = 0
+
+        if(memoCount == 12) {
+            progressCount = 99
+            binding.growCountText.text = "0"
+        }else if(memoCount % 3 != 0) {
+            progressCount = (memoCount % 3) * 33
+        }
+        binding.growCountText.text = "${3 - memoCount % 3}"
+        binding.progressBar.setProgress(progressCount,true)
+        Log.d("aitan","progressCount = $progressCount")
+
         changeImage()
     }
 
     private fun changeImage() {
-        pref = requireActivity().getSharedPreferences("SharedPref", Context.MODE_PRIVATE)
-        memoCount = pref.getInt("MemoCount",0)
+//        if (memoCount % 3 == 0 && memoCount != lastMemoCount) {
+//            currentImageIndex = (memoCount / 3) % imageResources.size
+//            binding.imageView.setImageResource(imageResources[currentImageIndex])
+//            lastMemoCount = memoCount
+//        }else if (lastMemoCount != memoCount)
+//            binding.imageView.setImageResource(imageResources[currentImageIndex])
+//
         Log.d("aitan","flower in memoCount = $memoCount")
+//        Log.d("aitan","flower in lastMemoCount = $lastMemoCount")
 
         val imageIndex = when (memoCount) {
             in 0..2 -> 0

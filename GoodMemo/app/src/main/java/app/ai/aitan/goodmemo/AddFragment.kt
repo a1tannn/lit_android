@@ -1,6 +1,8 @@
 package app.ai.aitan.goodmemo
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +14,7 @@ import android.widget.Toast
 import app.ai.aitan.goodmemo.databinding.FragmentAddBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 class AddFragment : Fragment() {
 
@@ -19,6 +22,8 @@ class AddFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var memoCount:Int = 0
+
+    private val hint = arrayOf<String>("ラッキーだったことは？","今日できたことは？","感謝した/されたことは？","体調はどう？","今日何食べた？","何か感じたことは？")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +34,7 @@ class AddFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -48,6 +54,11 @@ class AddFragment : Fragment() {
         memoCount = pref.getInt("MemoCount",0)
         Log.d("aitan","add in memoCount = $memoCount")
 
+        binding.hintText.setOnClickListener {
+            val random: Int = Random.nextInt(hint.size)
+            binding.hintText.text = "ヒント:${hint[random]}"
+        }
+
         binding.editText.setOnClickListener {
             val dateText = binding.dateText.text.toString()
             val text = binding.editText.text.toString()
@@ -65,14 +76,19 @@ class AddFragment : Fragment() {
                 memoCount++
                 if(memoCount > 12) memoCount = 1
                 pref.edit().putInt("MemoCount",memoCount).apply()
+                Toast.makeText(context, "メモを追加しました", Toast.LENGTH_SHORT).show()
             }else{
                 editor.putString(dateText,text).apply()
+                Toast.makeText(context, "メモを編集しました", Toast.LENGTH_SHORT).show()
             }
-            Toast.makeText(context, "メモを追加しました", Toast.LENGTH_SHORT).show()
 
             date = LocalDateTime.now()
             binding.dateText.text = "${date.year}年${date.monthValue}月${date.dayOfMonth}日"
             binding.editText.setText("")
+
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
         }
     }
 }
