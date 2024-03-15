@@ -59,7 +59,7 @@ class AddFragment : Fragment() {
             binding.hintText.text = "ヒント:${hint[random]}"
         }
 
-        binding.editText.setOnClickListener {
+        binding.saveButton.setOnClickListener {
             val dateText = binding.dateText.text.toString()
             val text = binding.editText.text.toString()
 

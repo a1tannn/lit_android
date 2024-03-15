@@ -6,9 +6,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/sprout"
+        android:icon="@mipmap/ic_goodmemo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/sprout"
+        android:roundIcon="@mipmap/ic_goodmemo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GoodMemo"
         tools:targetApi="31">
