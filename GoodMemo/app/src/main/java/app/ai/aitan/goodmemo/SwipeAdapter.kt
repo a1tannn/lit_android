@@ -3,6 +3,7 @@ package app.ai.aitan.goodmemo
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -54,6 +55,8 @@ class SwipeAdapter(
         val textViewCard = convertView.findViewById(R.id.memo_text) as TextView
         textViewCard.text = mMemoData[position]
 
+        textViewCard.movementMethod = ScrollingMovementMethod()
+
         val editButton = convertView.findViewById<ImageButton>(R.id.edit_button)
         editButton.setOnClickListener {
             val args = Bundle()
@@ -78,7 +81,7 @@ class SwipeAdapter(
                 .setTitle("${mDateData[position]}のメモを削除しますか？")
                 .setPositiveButton("削除する") { dialog, which ->
                     prefMemo.edit().remove(mDateData[position]).apply()
-                    Toast.makeText(fragment.context, "${mDateData[position]}を削除しました", Toast.LENGTH_LONG).show()
+                    Toast.makeText(fragment.context, "${mDateData[position]}のメモを削除しました", Toast.LENGTH_SHORT).show()
                     memoCount--
                     editor.putInt("MemoCount",memoCount).apply()
                     Log.d("aitan","after delete memoCount = $memoCount")

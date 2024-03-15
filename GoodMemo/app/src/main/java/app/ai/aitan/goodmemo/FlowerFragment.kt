@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import app.ai.aitan.goodmemo.databinding.FragmentFlowerBinding
 
 class FlowerFragment : Fragment() {
@@ -23,11 +24,7 @@ class FlowerFragment : Fragment() {
     )
     private lateinit var pref: SharedPreferences
 
-    private var currentImageIndex = 0
-
     private var memoCount = 0
-
-    private var lastMemoCount: Int = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,26 +46,28 @@ class FlowerFragment : Fragment() {
         if(memoCount == 12) {
             progressCount = 99
             binding.growCountText.text = "0"
+
+            if (!pref.getBoolean("dialogShown", false)) {
+                showMyDialog()
+            }
         }else if(memoCount % 3 != 0) {
             progressCount = (memoCount % 3) * 33
+            binding.growCountText.text = "${3 - memoCount % 3}"
+        }else{
+            binding.growCountText.text = "${3 - memoCount % 3}"
+
+            pref.edit().putBoolean("dialogShown",false).apply()
         }
-        binding.growCountText.text = "${3 - memoCount % 3}"
         binding.progressBar.setProgress(progressCount,true)
+
+        Log.d("aitan","memoCount = $memoCount")
         Log.d("aitan","progressCount = $progressCount")
 
         changeImage()
     }
 
     private fun changeImage() {
-//        if (memoCount % 3 == 0 && memoCount != lastMemoCount) {
-//            currentImageIndex = (memoCount / 3) % imageResources.size
-//            binding.imageView.setImageResource(imageResources[currentImageIndex])
-//            lastMemoCount = memoCount
-//        }else if (lastMemoCount != memoCount)
-//            binding.imageView.setImageResource(imageResources[currentImageIndex])
-//
         Log.d("aitan","flower in memoCount = $memoCount")
-//        Log.d("aitan","flower in lastMemoCount = $lastMemoCount")
 
         val imageIndex = when (memoCount) {
             in 0..2 -> 0
@@ -80,6 +79,23 @@ class FlowerFragment : Fragment() {
         }
 
         binding.imageView.setImageResource(imageResources[imageIndex])
+    }
+
+    private fun showMyDialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        builder
+            .setTitle("おめでとうございます！")
+            .setMessage("花が咲きました！" +
+                    "引き続き、ポジティブにいきましょう！")
+            .setPositiveButton("OK") { dialog, which ->
+                with(pref.edit()) {
+                    putBoolean("dialogShown", true)
+                    apply()
+                }
+            }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 
 }
