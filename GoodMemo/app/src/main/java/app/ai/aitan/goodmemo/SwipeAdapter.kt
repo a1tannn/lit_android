@@ -47,7 +47,7 @@ class SwipeAdapter(
 
         val editor = pref.edit()
         editor.putInt("MemoCount",memoCount).apply()
-        Log.d("aitan","$memoCount")
+//        Log.d("aitan","$memoCount")
 
         val textDateView = convertView.findViewById(R.id.memo_date_text) as TextView
         textDateView.text = mDateData[position]
@@ -84,7 +84,7 @@ class SwipeAdapter(
                     Toast.makeText(fragment.context, "${mDateData[position]}のメモを削除しました", Toast.LENGTH_SHORT).show()
                     memoCount--
                     editor.putInt("MemoCount",memoCount).apply()
-                    Log.d("aitan","after delete memoCount = $memoCount")
+//                    Log.d("aitan","after delete memoCount = $memoCount")
 
                     mSwipeStack.swipeTopViewLeft()
                 }

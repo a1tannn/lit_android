@@ -10,7 +10,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.view.isVisible
 import app.ai.aitan.goodmemo.databinding.FragmentAddBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -52,11 +55,20 @@ class AddFragment : Fragment() {
         binding.editText.setText(memoText)
 
         memoCount = pref.getInt("MemoCount",0)
-        Log.d("aitan","add in memoCount = $memoCount")
+//        Log.d("aitan","add in memoCount = $memoCount")
 
         binding.hintText.setOnClickListener {
             val random: Int = Random.nextInt(hint.size)
             binding.hintText.text = "ヒント:${hint[random]}"
+            binding.hintAssistText.isVisible = false
+        }
+
+        binding.cardView.setOnClickListener {
+            binding.editText.isEnabled = true
+            binding.editText.isFocusableInTouchMode = true
+            binding.editText.requestFocus()
+            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(binding.editText,InputMethodManager.SHOW_IMPLICIT)
         }
 
         binding.saveButton.setOnClickListener {
@@ -68,10 +80,9 @@ class AddFragment : Fragment() {
 
             val editor = prefMemo.edit()
 
-            if(text == "")
+            if(text == "") {
                 return@setOnClickListener
-            else if(dateText == "${date.year}年${date.monthValue}月${date.dayOfMonth}日")
-            {
+            }else if(dateText == "${date.year}年${date.monthValue}月${date.dayOfMonth}日") {
                 editor.putString(formattedDateTime,text).apply()
                 memoCount++
                 if(memoCount > 12) memoCount = 1

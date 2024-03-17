@@ -60,14 +60,14 @@ class FlowerFragment : Fragment() {
         }
         binding.progressBar.setProgress(progressCount,true)
 
-        Log.d("aitan","memoCount = $memoCount")
-        Log.d("aitan","progressCount = $progressCount")
+//        Log.d("aitan","memoCount = $memoCount")
+//        Log.d("aitan","progressCount = $progressCount")
 
         changeImage()
     }
 
     private fun changeImage() {
-        Log.d("aitan","flower in memoCount = $memoCount")
+//        Log.d("aitan","flower in memoCount = $memoCount")
 
         val imageIndex = when (memoCount) {
             in 0..2 -> 0
@@ -85,8 +85,7 @@ class FlowerFragment : Fragment() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
         builder
             .setTitle("おめでとうございます！")
-            .setMessage("花が咲きました！" +
-                    "引き続き、ポジティブにいきましょう！")
+            .setMessage("花が咲きました！" + "\n" + "引き続き、ポジティブにいきましょう！")
             .setPositiveButton("OK") { dialog, which ->
                 with(pref.edit()) {
                     putBoolean("dialogShown", true)
